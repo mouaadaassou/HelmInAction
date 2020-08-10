@@ -1,3 +1,6 @@
+sercret:
+  mongodb_username: "YWRtaW4="
+  mongodb_password: "cGFzc3dvcmQ="
 mountVolume:
   name: mongodb-volume
   path: /data/db

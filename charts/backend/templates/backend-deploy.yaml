@@ -23,6 +23,6 @@ spec:
             - name: MONGODB_URI
               valueFrom:
                 secretKeyRef:
-                  name: backend-secret
-                  key: mongodb-uri
+                  name: {{ .Release.Name }}{{ .Chart.Name }}-secret
+                  key: mongodb_uri
 

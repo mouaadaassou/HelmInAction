@@ -1,3 +1,10 @@
+secret:
+  mongodb:
+    mongodb_username: "admin"
+    mongodb_password: "password"
+    db_chart: "database"
+    db_port: 27017
+    db_connection: "guestbook?authSource=admin"
 service:
   name: backend
   port: 80
