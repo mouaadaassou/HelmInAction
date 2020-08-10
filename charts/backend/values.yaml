@@ -1,0 +1,15 @@
+service:
+  name: backend
+  port: 80
+ingress:
+  host: backend.minikube.local
+replicas:
+  count: 1
+container:
+  port:
+    name: backend
+    number: 3000
+  image:
+    imagePullPolicy: Always
+    name: phico/backend
+    tag: "2.0"

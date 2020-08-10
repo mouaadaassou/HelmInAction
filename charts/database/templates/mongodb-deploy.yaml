@@ -1,0 +1,41 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.replicas.count }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-{{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
+    spec:
+      containers:
+        - image: {{ .Values.container.image.name }}
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: {{ .Values.env.mongoInitDB }}
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongodb-username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongodb-password
+          name: {{ .Values.container.name }}
+          ports:
+            - name: {{ .Values.container.name }}
+              containerPort: {{ .Values.container.image.port }}
+          volumeMounts:
+            - name: {{ .Values.mountVolume.name }}
+              mountPath: {{ .Values.mountVolume.path }}
+      volumes:
+        - name: {{ .Values.mountVolume.name }}
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-{{ .Chart.Name }}-pvc

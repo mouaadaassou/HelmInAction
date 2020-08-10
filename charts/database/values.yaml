@@ -1,0 +1,33 @@
+mountVolume:
+  name: mongodb-volume
+  path: /data/db
+env:
+  mongoInitDB: guestbook
+container:
+  name: mongodb
+  image:
+    port: 27017
+    name: mongo
+replicas:
+  count: 1
+service:
+  port: 27017
+  targetPort: 27017
+  type: NodePort
+persistentVolumeClaim:
+  label:
+    type: local
+  permissions:
+    accessMode: ReadWriteOnce
+  storage:
+    capacity: 100Mi
+persistentVolume:
+  mount:
+    path: /mnt/data
+  permissions:
+    accessMode: ReadWriteOnce
+  label:
+    type: local
+  storage:
+    class: manual
+    capacity: 100Mi

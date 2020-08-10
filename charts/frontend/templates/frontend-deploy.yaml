@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+spec:
+  replicas: {{ .Values.replicasCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-{{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
+    spec:
+      containers:
+        - image: {{ .Values.container.image.name }}:{{ .Values.container.image.tag }}
+          imagePullPolicy: {{ .Values.container.image.pullPolicy }}
+          name: {{ .Release.Name }}-{{ .Chart.Name }}
+          ports:
+            - name: {{ .Release.Name }}-{{ .Chart.Name }}
+              containerPort: {{ .Values.container.port }}
+          env:
+            - name: BACKEND_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-{{ .Chart.Name }}-config
+                  key: backend-uri
+            - name: GUESTBOOK_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-{{ .Chart.Name }}-config
+                  key: guestbook-name

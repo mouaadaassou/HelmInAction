@@ -1,0 +1,14 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-pv-volume
+  labels:
+    type: {{ .Values.persistentVolume.label.type }}
+spec:
+  storageClassName: {{ .Values.persistentVolume.storage.class }}
+  capacity:
+    storage: {{ .Values.persistentVolume.storage.capacity }}
+  accessModes:
+    - {{ .Values.persistentVolume.permissions.accessMode }}
+  hostPath:
+    path:  {{ .Values.persistentVolume.mount.path }}
